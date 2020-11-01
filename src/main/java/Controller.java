@@ -5,17 +5,31 @@
  *            front-end GUI.
  **************************************************************************************************/
 
+import static java.time.ZoneOffset.UTC;
+
+import java.awt.event.WindowStateListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Date;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableListBase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javax.swing.plaf.nimbus.State;
+import org.h2.table.Table;
+
 
 public class Controller {
 
@@ -24,13 +38,18 @@ public class Controller {
   @FXML
   private Button produce_recordProduction_button;
   @FXML
-  private Button productLine_addProduct_button;
-  @FXML
   private TextField productLine_ProductName_TextField;
   @FXML
   private TextField ProductLine_Manufacturer_TextField;
   @FXML
-  private TextField ProductLine_ItemType_TextField;
+  private ChoiceBox<String> ProductLine_ItemType_ChoiceBox;
+  @FXML
+  private TextArea productionLog_TextArea;
+
+  @FXML
+  private TableView<?> productLine_TableView;
+  @FXML
+  private Button productLine_addProduct_button;
 
   /*
    * This is what will happen when the user presses the 'Add Product' button on the 'Product Line'
@@ -41,6 +60,7 @@ public class Controller {
   @FXML
   void addProductToDataBase(ActionEvent event) {
     connectToDatabase();
+
   }
 
 
@@ -51,6 +71,18 @@ public class Controller {
   @FXML
   void initialize() {
     populateComboBox();
+    populateChoiceBox();
+
+
+
+    //week_9_test();
+
+    // separate tests in week 10 to show code changing between ItemTypes
+    //week_10_test();
+
+
+    week_11_test();
+
   }
 
   /*
@@ -66,6 +98,64 @@ public class Controller {
       produce_quantity_comboBox.setEditable(true);
     }
   }
+
+  public void populateChoiceBox() {
+
+    for (ItemType c : ItemType.values()) {
+      ProductLine_ItemType_ChoiceBox.getItems().add(c.toString());
+
+    }
+  }
+
+  public void week_9_test() {
+
+    AudioPlayer newAudioProduct = new AudioPlayer("DP-X1A", "Onkyo",
+        "DSD/FLAC/ALAC/WAV/AIFF/MQA/Ogg-Vorbis/MP3/AAC", "M3U/PLS/WPL");
+    Screen newScreen = new Screen("720x480", 40, 22);
+    MoviePlayer newMovieProduct = new MoviePlayer("DBPOWER MK101", "OracleProduction", newScreen,
+        MonitorType.LCD);
+    ArrayList<MultimediaControl> productList = new ArrayList<MultimediaControl>();
+    productList.add(newAudioProduct);
+    productList.add(newMovieProduct);
+    for (MultimediaControl p : productList) {
+      System.out.println(p);
+      p.play();
+      p.stop();
+      p.next();
+      p.previous();
+    }
+    ProductionRecord newRecord = new ProductionRecord(0);
+    productionLog_TextArea.setText(newRecord.toString());
+  }
+
+  public void week_10_test() {
+
+    // test for "AU" code in serial number string
+    AudioPlayer test23 = new AudioPlayer("DP-X1A", "Onkyo",
+        "DSD/FLAC/ALAC/WAV/AIFF/MQA/Ogg-Vorbis/MP3/AAC", "M3U/PLS/WPL");
+    ProductionRecord record2 = new ProductionRecord(test23, 1);
+    productionLog_TextArea.setText(record2.toString());
+
+    // test for "VI" code in serial number string
+    Screen newScreen2 = new Screen("4k", 240, 1);
+    MoviePlayer test32 = new MoviePlayer("Macbook", "Apple", newScreen2, MonitorType.LED);
+    ProductionRecord record3 = new ProductionRecord(test32, 1);
+    productionLog_TextArea.setText(record3.toString());
+  }
+
+  public void week_11_test(){
+
+
+
+
+
+
+
+
+
+
+  }
+
 
   /*
    * Temporary function while I determine how I want to set this class up
@@ -113,7 +203,7 @@ public class Controller {
       // each of these Strings is a local container for the text fields on the 'Product Line' tab
       String name = productLine_ProductName_TextField.getText();
       String manufacturer = ProductLine_Manufacturer_TextField.getText();
-      String type = ProductLine_ItemType_TextField.getText();
+      String type = ProductLine_ItemType_ChoiceBox.getValue();
 
       // need this string to take whatever was put into the text fields above and convert it into a SQL
       // statement that we can execute. Can think of this as an input to the console but just

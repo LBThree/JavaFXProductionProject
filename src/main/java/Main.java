@@ -25,7 +25,5 @@ public class Main extends Application {
     primaryStage.setTitle("Inventory System");
     primaryStage.setScene(scene);
     primaryStage.show();
-
-
   }
 }
