@@ -8,6 +8,7 @@
 import static java.time.ZoneOffset.UTC;
 
 import java.awt.event.WindowStateListener;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -15,10 +16,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableListBase;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -28,6 +34,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import org.h2.table.Table;
 
 
@@ -35,32 +42,41 @@ public class Controller {
 
   @FXML
   private ComboBox<String> produce_quantity_comboBox;
+
   @FXML
   private Button produce_recordProduction_button;
-  @FXML
-  private TextField productLine_ProductName_TextField;
-  @FXML
-  private TextField ProductLine_Manufacturer_TextField;
-  @FXML
-  private ChoiceBox<String> ProductLine_ItemType_ChoiceBox;
+
   @FXML
   private TextArea productionLog_TextArea;
 
   @FXML
-  private TableView<?> productLine_TableView;
+  private TextField productLine_ProductName_TextField;
+
+  @FXML
+  private TextField ProductLine_Manufacturer_TextField;
+
+  @FXML
+  private ChoiceBox<String> ProductLine_ItemType_ChoiceBox;
+
   @FXML
   private Button productLine_addProduct_button;
 
-  /*
-   * This is what will happen when the user presses the 'Add Product' button on the 'Product Line'
-   * tab and inputs the required information. I'm still trying to figure out how to make
-   * 'connectToDatabase()' a standalone method so that I can just call it each time I need to access
-   * the database. For now I just have the whole process taking place on the button click
-   */
   @FXML
-  void addProductToDataBase(ActionEvent event) {
-    connectToDatabase();
+  private TableView<Widget> productLine_TableView;
 
+  @FXML
+  private TableColumn<?, ?> name_Column;
+
+  @FXML
+  private TableColumn<?, ?> manufacturer_Column;
+
+  @FXML
+  private TableColumn<?, ?> type_Column;
+
+  @FXML
+  void addProductToTable(ActionEvent event) {
+    // when we click the button we want the data to get inserted into the table
+    createList();
   }
 
 
@@ -70,18 +86,15 @@ public class Controller {
    */
   @FXML
   void initialize() {
+
+    connectToDatabase();
     populateComboBox();
     populateChoiceBox();
 
-
-
-    //week_9_test();
+    week_9_test();
 
     // separate tests in week 10 to show code changing between ItemTypes
-    //week_10_test();
-
-
-    week_11_test();
+     //week_10_test();
 
   }
 
@@ -143,19 +156,22 @@ public class Controller {
     productionLog_TextArea.setText(record3.toString());
   }
 
-  public void week_11_test(){
 
+  public void createList() {
+    // setup to connect FXML to ObservableList
+    ObservableList<Widget> productLine = FXCollections.observableArrayList();
+    name_Column.setCellValueFactory(new PropertyValueFactory<>("Name"));
+    manufacturer_Column.setCellValueFactory(new PropertyValueFactory<>("Manufacturer"));
+    type_Column.setCellValueFactory(new PropertyValueFactory<>("Type"));
+    productLine_TableView.setItems(productLine);
 
+    // just a place to put the input for the user
+    String input_Name = productLine_ProductName_TextField.getText();
+    String input_manufacturer = ProductLine_Manufacturer_TextField.getText();
+    String input_Type = ProductLine_ItemType_ChoiceBox.getValue();
 
-
-
-
-
-
-
-
+    productLine.add(new Widget(input_Name, input_manufacturer, input_Type));
   }
-
 
   /*
    * Temporary function while I determine how I want to set this class up
@@ -216,7 +232,7 @@ public class Controller {
       // but I want to get this into the 'addProductToDataBase(ActionEvent event)'
       stmt.executeUpdate(insertSQL);
 
-      // can think of this another console command, this sting will be used as a parameter
+      // can think of this another console command, this string will be used as a parameter
       // for a method when we want to show everything in the 'Product' table
       String getSQL = "SELECT * FROM PRODUCT";
 
@@ -244,4 +260,5 @@ public class Controller {
       e.printStackTrace();
     }
   }
+
 }

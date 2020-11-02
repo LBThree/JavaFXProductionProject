@@ -35,7 +35,7 @@ public class AudioPlayer extends Product implements MultimediaControl {
     return
         "Name: " + getName() + "\n" +
             "Manufacturer: " + getManufacturer() + "\n" +
-            "Type: " + getItemType() + "\n" +
+            "Type: " + getType() + "\n" +
             "Supported Audio Formats: " + supportedAudioFormats + "\n" +
             "Supported Playlist Formats: " + supportedPlaylistFormats;
   }

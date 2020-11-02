@@ -34,7 +34,7 @@ public class MoviePlayer extends Product implements MultimediaControl {
     return
         "Name: " + getName() + "\n" +
             "Manufacturer: " + getManufacturer() + "\n" +
-            "Type: " + getItemType() + "\n" +
+            "Type: " + getType() + "\n" +
             "Screen: " + screen + "\n" +
             "Monitor Type: " + monitorType;
   }

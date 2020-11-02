@@ -2,7 +2,7 @@ public interface Item {
 
   int getId();
 
-  ItemType getItemType();
+  ItemType getType();
 
   String getName();
 
@@ -11,4 +11,6 @@ public interface Item {
   void setName(String name);
 
   void setManufacturer(String manufacturer);
+
+  void setType(ItemType type);
 }

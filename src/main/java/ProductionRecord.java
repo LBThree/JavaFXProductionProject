@@ -29,7 +29,7 @@ public class ProductionRecord {
   public ProductionRecord(Product product, int numberOfItems){
 
     String manufacturerCode = product.getManufacturer().toUpperCase().substring(0,3);
-    String itemCode = product.getItemType().code;
+    String itemCode = product.getType().code;
     String prettyProductionNumber = String.format("%05d",productionNumber);
 
     serialNumber = manufacturerCode + itemCode + prettyProductionNumber;

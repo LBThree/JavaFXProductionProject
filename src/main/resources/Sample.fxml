@@ -90,16 +90,16 @@
                               <ChoiceBox fx:id="ProductLine_ItemType_ChoiceBox" prefWidth="225.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                   </children>
                 </GridPane>
-                <Button fx:id="productLine_addProduct_button" layoutX="313.0" layoutY="197.0" mnemonicParsing="false" onAction="#addProductToDataBase" text="Add Product">
+                <Button fx:id="productLine_addProduct_button" layoutX="313.0" layoutY="197.0" mnemonicParsing="false" onAction="#addProductToTable" text="Add Product">
                   <font>
                     <Font size="18.0" />
                   </font>
                 </Button>
                 <TableView fx:id="productLine_TableView" layoutX="14.0" layoutY="267.0" prefHeight="190.0" prefWidth="479.0">
                   <columns>
-                    <TableColumn prefWidth="152.0" text="Name" />
-                    <TableColumn prefWidth="172.0" text="Manufacturer" />
-                    <TableColumn prefWidth="154.0" text="Type" />
+                    <TableColumn fx:id="name_Column" prefWidth="152.0" text="Name" />
+                    <TableColumn fx:id="manufacturer_Column" prefWidth="172.0" text="Manufacturer" />
+                    <TableColumn fx:id="type_Column" prefWidth="154.0" text="Type" />
                   </columns>
                 </TableView>
                 <Label layoutX="55.0" layoutY="233.0" text="Existing Products">

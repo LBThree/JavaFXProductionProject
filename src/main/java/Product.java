@@ -12,7 +12,6 @@ public abstract class Product implements Item {
     this.type = type;
   }
 
-
   @Override
   public String toString() {
     return
@@ -32,11 +31,6 @@ public abstract class Product implements Item {
   }
 
   @Override
-  public ItemType getItemType() {
-    return type;
-  }
-
-  @Override
   public String getManufacturer() {
     return manufacturer;
   }
@@ -50,4 +44,11 @@ public abstract class Product implements Item {
   public void setManufacturer(String manufacturer) {
     this.manufacturer = manufacturer;
   }
+
+  @Override
+  public ItemType getType() {return type;}
+
+  @Override
+  public void setType(ItemType type) {this.type = type;}
+
 }
