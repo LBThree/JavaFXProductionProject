@@ -30,7 +30,7 @@
                     <Font size="18.0" />
                   </font>
                 </Label>
-                <ListView layoutX="183.0" layoutY="20.0" prefHeight="130.0" prefWidth="280.0" />
+                <ListView fx:id="produce_ChooseProduct" layoutX="183.0" layoutY="20.0" prefHeight="130.0" prefWidth="280.0" />
                 <ComboBox fx:id="produce_quantity_comboBox" layoutX="183.0" layoutY="176.0" prefHeight="25.0" prefWidth="280.0" />
                 <Label layoutX="27.0" layoutY="175.0" text="Choose Quantity">
                   <font>

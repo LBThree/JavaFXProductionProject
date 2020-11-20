@@ -10,7 +10,7 @@ public class ProductionRecord {
 
   /********************************CONSTRUCTORS*************************************************/
 
-  // may need to make a default constructor to create a new Date() every time a new constructor is used
+  // this is the constructor that will be called when the user records production from the UI
   public ProductionRecord(int productID) {
     this.productID = productID;
     productionNumber = 0;
@@ -23,27 +23,44 @@ public class ProductionRecord {
     this.productionNumber = productionNumber;
     this.productID = productID;
     this.serialNumber = serialNumber;
-    this.dateProduced = dateProduced;
+    this.dateProduced = new Date();
   }
 
-  public ProductionRecord(Product product, int numberOfItems){
+  public ProductionRecord(Product product, int numberOfItems) {
 
-    String manufacturerCode = product.getManufacturer().toUpperCase().substring(0,3);
+    dateProduced = new Date();
+
+    String manufacturerCode = product.getManufacturer().substring(0, 3);
     String itemCode = product.getType().code;
-    String prettyProductionNumber = String.format("%05d",productionNumber);
+    String prettyProductionNumber = String.format("%05d", productionNumber);
 
     serialNumber = manufacturerCode + itemCode + prettyProductionNumber;
+
+
   }
 
 
   /*******************************GETTERS+SETTERS************************************************/
-
-  public int getProductionNum() {
+  public int getProductionNumber() {
     return productionNumber;
   }
 
-  public void setProductionNum(int productionNumber) {
-    this.productionNumber = productionNumber;
+  public void setProductionNumber(int productionNumber) {this.productionNumber = productionNumber;}
+
+  public String getSerialNumber() {
+    return serialNumber;
+  }
+
+  public void setSerialNumber(String serialNumber) {
+    this.serialNumber = serialNumber;
+  }
+
+  public Date getDateProduced() {
+    return dateProduced;
+  }
+
+  public void setDateProduced(Date dateProduced) {
+    this.dateProduced = dateProduced;
   }
 
   public int getProductID() {
@@ -54,23 +71,7 @@ public class ProductionRecord {
     this.productID = productID;
   }
 
-  public String getSerialNum() {
-    return serialNumber;
-  }
-
-  public void setSerialNum(String serialNumber) {
-    this.serialNumber = serialNumber;
-  }
-
-  public Date getProdDate() {
-    return dateProduced;
-  }
-
-  public void setProdDate(Date dateProduced) {
-    this.dateProduced = dateProduced;
-  }
-
-
+  /********************************METHODS************************************************/
   @Override
   public String toString() {
     return
