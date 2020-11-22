@@ -11,8 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.function.Consumer;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -64,10 +65,27 @@ public class Controller {
   void addProductToTable(ActionEvent event) {
     // when we click the button we want the data to get inserted into the table
 
-    addToObservableList();
+    try {
 
-    productLine_ProductName_TextField.clear();
-    ProductLine_Manufacturer_TextField.clear();
+      addToObservableList();
+
+      productLine_ProductName_TextField.clear();
+      ProductLine_Manufacturer_TextField.clear();
+
+    } catch (Exception e) {
+      e.getLocalizedMessage();
+
+    }
+
+
+  }
+
+  @FXML
+  void record_Production_Button(ActionEvent event) {
+
+    // we want to add the product that is selected from the list,
+    // with the quantity that is selected from the box
+    addToProductionLog();
 
 
   }
@@ -81,97 +99,45 @@ public class Controller {
   @FXML
   void initialize() {
 
+    productLine.add(new Widget("iPhoneX", "Apple", ItemType.AUDIO));
+    productLine.add(new Widget("Android", "Google", ItemType.VISUAL));
+    productLine.add(new Widget("XP15", "Dell", ItemType.AudioMobile));
+    productLine.add(new Widget("Firestick", "Amazon", ItemType.VisualMobile));
+
     connectToDatabase();
     populateComboBox();
     populateChoiceBox();
     createObservableList();
     addToListView();
 
-    // sample production log with current time and the serial number
-    Widget foo = new Widget("iPhone", "Apple", ItemType.AudioMobile);
-    ProductionRecord testRecord = new ProductionRecord(foo, 2);
-    productionLog_TextArea.setText(testRecord.toString());
 
   }
 
-  public void week_9_test() {
 
-    AudioPlayer newAudioProduct = new AudioPlayer("DP-X1A", "Onkyo",
-        "DSD/FLAC/ALAC/WAV/AIFF/MQA/Ogg-Vorbis/MP3/AAC", "M3U/PLS/WPL");
+  public void addToProductionLog() {
+    // we want to add the product that is selected from the list,
+    // with the quantity that is selected from the box
 
-    Screen newScreen = new Screen("720x480", 40, 22);
+    try {
 
-    MoviePlayer newMovieProduct = new MoviePlayer("DBPOWER MK101", "OracleProduction", newScreen,
-        MonitorType.LCD);
+      int quantity = Integer.parseInt(produce_quantity_comboBox.getValue());
 
-    ArrayList<MultimediaControl> productList = new ArrayList<>();
+      for (int i = 0; i < quantity; i++) {
 
-    productList.add(newAudioProduct);
-    productList.add(newMovieProduct);
+        productionLog_TextArea.appendText(
+            new ProductionRecord(produce_ChooseProduct.getSelectionModel().getSelectedItem(),
+                quantity).toString() + "\n");
 
-    for (MultimediaControl p : productList) {
-      System.out.println(p);
-      p.play();
-      p.stop();
-      p.next();
-      p.previous();
+        produce_quantity_comboBox.setValue("1");
+      }
+
+
+    } catch (Exception e) {
+      e.printStackTrace();
     }
-    ProductionRecord newRecord = new ProductionRecord(0);
-    productionLog_TextArea.setText(newRecord.toString());
+
 
   }
-
-  public void week_10_test() {
-
-    // test for "AU" code in serial number string
-    AudioPlayer test23 = new AudioPlayer("DP-X1A", "Onkyo",
-        "DSD/FLAC/ALAC/WAV/AIFF/MQA/Ogg-Vorbis/MP3/AAC", "M3U/PLS/WPL");
-    ProductionRecord record2 = new ProductionRecord(test23, 1);
-    productionLog_TextArea.setText(record2.toString());
-
-    // test for "VI" code in serial number string
-    Screen newScreen2 = new Screen("4k", 240, 1);
-    MoviePlayer test32 = new MoviePlayer("Macbook", "Apple", newScreen2, MonitorType.LED);
-    ProductionRecord record3 = new ProductionRecord(test32, 1);
-    productionLog_TextArea.setText(record3.toString());
-  }
-
-  public void issue7Test() {
-
-    Product productProduced = new Widget("iPod", "Apple", ItemType.AUDIO);
-    int numProduced = 3;  // this will come from the combobox in the UI
-    int itemCount = 0;
-
-    for (int productionRunProduct = 0; productionRunProduct < numProduced; productionRunProduct++) {
-      ProductionRecord pr = new ProductionRecord(productProduced, itemCount++);
-      // using the iterator as the product id for testing
-      System.out.println(pr.toString());
-    }
-  }
-
-
-  public void createObservableList() {
-
-    // setup to connect FXML to ObservableList
-    name_Column.setCellValueFactory(new PropertyValueFactory<>("Name"));
-    manufacturer_Column.setCellValueFactory(new PropertyValueFactory<>("Manufacturer"));
-    type_Column.setCellValueFactory(new PropertyValueFactory<>("Type"));
-    productLine_TableView.setItems(productLine);
-
-  }
-
-  public void addToObservableList() {
-
-    String input_Name = productLine_ProductName_TextField.getText();
-    String input_manufacturer = ProductLine_Manufacturer_TextField.getText();
-    String input_Type = ProductLine_ItemType_ChoiceBox.getValue();
-
-    productLine.add(new Widget(input_Name, input_manufacturer, input_Type));
-
-  }
-
-
-  public void addToListView() {produce_ChooseProduct.setItems(productLine);}
 
 
   /*
@@ -273,7 +239,9 @@ public class Controller {
    */
   public void populateComboBox() {
     for (int i = 1; i <= 10; i++) {
+
       produce_quantity_comboBox.getSelectionModel().selectFirst();
+      produce_quantity_comboBox.setValue("Select / enter a value");
       produce_quantity_comboBox.getItems().add(Integer.toString(i));
       // this allows the user to enter a number of their choice
       produce_quantity_comboBox.setEditable(true);
@@ -286,6 +254,32 @@ public class Controller {
       ProductLine_ItemType_ChoiceBox.getItems().add(c.toString());
 
     }
+  }
+
+
+  public void createObservableList() {
+
+    // setup to connect FXML to ObservableList
+    name_Column.setCellValueFactory(new PropertyValueFactory<>("Name"));
+    manufacturer_Column.setCellValueFactory(new PropertyValueFactory<>("Manufacturer"));
+    type_Column.setCellValueFactory(new PropertyValueFactory<>("Type"));
+    productLine_TableView.setItems(productLine);
+
+  }
+
+  public void addToObservableList() {
+
+    String input_Name = productLine_ProductName_TextField.getText();
+    String input_manufacturer = ProductLine_Manufacturer_TextField.getText();
+    String input_Type = ProductLine_ItemType_ChoiceBox.getValue();
+
+    productLine.add(new Widget(input_Name, input_manufacturer, input_Type));
+
+  }
+
+  public void addToListView() {
+    produce_ChooseProduct.setItems(productLine);
+    produce_ChooseProduct.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
   }
 
 }

@@ -2,11 +2,20 @@ import java.util.Date;
 
 public class ProductionRecord {
 
-  int productionNumber;
-  int productID;
-  String serialNumber;
-  Date dateProduced;
+  // counts the items made regardless of type
+  private static int productionNumber;
 
+  // counts each item by its type
+  private int serialNumberType;
+
+  private int productID;
+  private String serialNumber;
+  private Date dateProduced;
+
+  private static int count_Audio = 1;
+  private static int count_Visual = 1;
+  private static int count_AudioMobile = 1;
+  private static int count_VisualMobile = 1;
 
   /********************************CONSTRUCTORS*************************************************/
 
@@ -18,25 +27,32 @@ public class ProductionRecord {
     dateProduced = new Date();
   }
 
-  public ProductionRecord(int productionNumber, int productID, String serialNumber,
-      Date dateProduced) {
-    this.productionNumber = productionNumber;
-    this.productID = productID;
-    this.serialNumber = serialNumber;
-    this.dateProduced = new Date();
-  }
-
+  // this is the constructor used when printing to the log
   public ProductionRecord(Product product, int numberOfItems) {
 
-    dateProduced = new Date();
+    if (product.getType().code.equals("AU")) {
+      serialNumberType = count_Audio++;
+      productionNumber++;
+    }
+    if (product.getType().code.equals("VI")) {
+      serialNumberType = count_Visual++;
+      productionNumber++;
+    }
+    if (product.getType().code.equals("AM")) {
+      serialNumberType = count_AudioMobile++;
+      productionNumber++;
+    }
+    if (product.getType().code.equals("VM")) {
+      serialNumberType = count_VisualMobile++;
+      productionNumber++;
+    }
 
+    dateProduced = new Date();
     String manufacturerCode = product.getManufacturer().substring(0, 3);
     String itemCode = product.getType().code;
-    String prettyProductionNumber = String.format("%05d", productionNumber);
+    String prettyProductionNumber = String.format("%05d", serialNumberType);
 
     serialNumber = manufacturerCode + itemCode + prettyProductionNumber;
-
-
   }
 
 
@@ -45,7 +61,9 @@ public class ProductionRecord {
     return productionNumber;
   }
 
-  public void setProductionNumber(int productionNumber) {this.productionNumber = productionNumber;}
+  public void setProductionNumber(int productionNumber) {
+    this.productionNumber = productionNumber;
+  }
 
   public String getSerialNumber() {
     return serialNumber;
@@ -75,9 +93,9 @@ public class ProductionRecord {
   @Override
   public String toString() {
     return
-        "Prod. Num: " + productionNumber +
+        "Prod#: " + productionNumber +
             " Product ID: " + productID +
-            " Serial Num: " + serialNumber +
+            " Serial#: " + serialNumber +
             " Date: " + dateProduced;
   }
 }

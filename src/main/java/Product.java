@@ -53,8 +53,8 @@ public abstract class Product implements Item {
   @Override
   public String toString() {
     return
-        "nameasdfsd: " + name + "\n" +
-            "manufacturer: " + manufacturer + "\n" +
-            "type: " + type;
+        "NAME: " + name + "\n" +
+            "MANUFACTURER: " + manufacturer + "\n" +
+            "TYPE: " + type;
   }
 }
