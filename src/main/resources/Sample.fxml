@@ -37,7 +37,7 @@
                     <Font size="18.0" />
                   </font>
                 </Label>
-                <Button fx:id="produce_recordProduction_button" layoutX="309.0" layoutY="420.0" mnemonicParsing="false" onAction="#record_Production_Button" prefHeight="34.0" prefWidth="177.0" text="Record Production" textAlignment="CENTER" textFill="RED" textOverrun="CLIP" wrapText="true">
+                <Button fx:id="produce_recordProduction_button" layoutX="309.0" layoutY="420.0" mnemonicParsing="false" onAction="#recordProductionButton" prefHeight="34.0" prefWidth="177.0" text="Record Production" textAlignment="CENTER" textFill="RED" textOverrun="CLIP" wrapText="true">
                   <font>
                     <Font size="18.0" />
                   </font>
@@ -90,7 +90,7 @@
                               <ChoiceBox fx:id="ProductLine_ItemType_ChoiceBox" prefWidth="225.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                   </children>
                 </GridPane>
-                <Button fx:id="productLine_addProduct_button" layoutX="313.0" layoutY="197.0" mnemonicParsing="false" onAction="#addProductToTable" text="Add Product">
+                <Button fx:id="productLine_addProduct_button" layoutX="313.0" layoutY="197.0" mnemonicParsing="false" onAction="#addProductButton" text="Add Product">
                   <font>
                     <Font size="18.0" />
                   </font>
