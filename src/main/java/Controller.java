@@ -70,7 +70,6 @@ public class Controller {
   @FXML
   public TableColumn<?, ?> type_Column;
 
-
   // ADDING PRODUCTS
   @FXML
   void addProductButton(ActionEvent event) {
@@ -118,24 +117,17 @@ public class Controller {
           getType().
           toString();
 
-      getMaxSerialNum(id);
-      System.out.println(getMaxSerialNum(id));
+      int maxSerialNum = getMaxSerialNum(id);
 
-/*
-      for (int i = 1; i <= howMany; i++) {
+      for (int i = maxSerialNum + 1; i <= maxSerialNum + howMany; i++) {
 
         productionRun.add(new ProductionRecord(new Widget(name, manufacturer, type, id), i));
 
       }
 
- */
-
-
-
       addToProductionDB(productionRun);
 
       loadProductionLog();
-
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -154,8 +146,8 @@ public class Controller {
     loadProductionLog();
   }
 
-
-  public String getMaxSerialNum(int IDNum) {
+  /***********************************DONE**************************************/
+  public int getMaxSerialNum(int IDNum) {
 
     openConnection();
 
@@ -166,17 +158,26 @@ public class Controller {
 
       ResultSet rs = stmt.executeQuery();
 
-      //return rs.getString("SERIAL_NUM");
-      return null;
+      rs.next();
+
+      rs.getString("SERIAL_NUM");
+
+      if (!rs.wasNull()) {
+
+        return Integer.parseInt(rs.getString("SERIAL_NUM").substring(5));
+
+      } else {
+
+        return 0;
+      }
 
     } catch (SQLException e) {
       e.printStackTrace();
     }
     closeConnection();
-    return "ERROR";
-  }
 
-  /***********************************DONE**************************************/
+    return 0;
+  }
 
   public void addToProductionDB(ArrayList<ProductionRecord> productionRunTest)
       throws SQLException, IllegalArgumentException {
@@ -340,7 +341,8 @@ public class Controller {
     for (int i = 1; i <= 10; i++) {
 
       produce_quantity_comboBox.getSelectionModel().selectFirst();
-      produce_quantity_comboBox.setValue("Select / enter a value");
+      //produce_quantity_comboBox.setValue("Select / enter a value");
+      produce_quantity_comboBox.setValue("1");
       produce_quantity_comboBox.getItems().add(Integer.toString(i));
       // this allows the user to enter a number of their choice
       produce_quantity_comboBox.setEditable(true);

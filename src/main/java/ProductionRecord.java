@@ -38,7 +38,6 @@ public class ProductionRecord {
     this.serialNumber = generateSerialNumber(product.getManufacturer(), product.getType(),
         numberOfItems);
     this.dateProduced = new Date();
-
   }
 
 
