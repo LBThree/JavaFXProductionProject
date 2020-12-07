@@ -12,12 +12,16 @@ public abstract class Product implements Item {
     this.type = type;
   }
 
+
+
   /***********************GETTERS+SETTERS*******************************/
 
   @Override
   public int getId() {
     return id;
   }
+
+  public void setId(int id) {this.id = id;}
 
   @Override
   public String getName() {

@@ -1,8 +1,6 @@
 
 public class Widget extends Product {
 
-
-
   public Widget(String name, String manufacturer, ItemType type) {
     super(name, manufacturer, type);
   }
@@ -10,8 +8,12 @@ public class Widget extends Product {
   public Widget (String name, String manufacturer, String type){
     super(name,manufacturer, ItemType.valueOf(type));
 
-  };
+  }
 
+  public Widget (String name, String manufacturer, String type, int id){
+    super(name,manufacturer, ItemType.valueOf(type));
+    setId(id);
+  }
 
 }
 
