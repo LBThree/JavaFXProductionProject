@@ -1,61 +1,44 @@
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class ProductionRecord {
 
-  // counts the items made regardless of type
-  private static int productionNumber;
 
-  // counts each item by its type
-  private int serialNumberType;
-
+  private int productionNumber;
   private int productID;
   private String serialNumber;
   private Date dateProduced;
 
-  private static int count_Audio = 1;
-  private static int count_Visual = 1;
-  private static int count_AudioMobile = 1;
-  private static int count_VisualMobile = 1;
 
   /********************************CONSTRUCTORS*************************************************/
 
-  // this is the constructor used when we are making Products/Widgets from the PRODUCTIONRECORD db
-  // so we need to figure out how to get the proper SerialNum / Name / Etc for each item
-  // even though we aer only putting in a productID that is matching from the database
-  // I think i need to use setters for this
   public ProductionRecord(int productID) {
 
-
+    this.productionNumber = 0;
+    this.productID = productID;
+    this.serialNumber = "0";
+    this.dateProduced = new Date();
   }
 
-  // this is the constructor used when printing to the log
+
+  public ProductionRecord(int productionNumber, int productID, String serialNumber,
+      Date dateProduced) {
+    this.productionNumber = productionNumber;
+    this.productID = productID;
+    this.serialNumber = serialNumber;
+    this.dateProduced = new Date(dateProduced.getTime());
+  }
+
+
   public ProductionRecord(Product product, int numberOfItems) {
 
-      if (product.getType().code.equals("AU")) {
-        serialNumberType = count_Audio++;
-        productionNumber++;
-      }
-      if (product.getType().code.equals("VI")) {
-        serialNumberType = count_Visual++;
-        productionNumber++;
-      }
-      if (product.getType().code.equals("AM")) {
-        serialNumberType = count_AudioMobile++;
-        productionNumber++;
-      }
-      if (product.getType().code.equals("VM")) {
-        serialNumberType = count_VisualMobile++;
-        productionNumber++;
-      }
-
-      dateProduced = new Date();
-      String manufacturerCode = product.getManufacturer().substring(0, 3);
-      String itemCode = product.getType().code;
-      String prettyProductionNumber = String.format("%05d", serialNumberType);
-
-      serialNumber = manufacturerCode + itemCode + prettyProductionNumber;
-    }
-
+    this.productionNumber = 0;
+    this.productID = product.getId();
+    this.serialNumber = generateSerialNumber(product.getManufacturer(), product.getType(),
+        numberOfItems);
+    this.dateProduced = new Date();
+  }
 
 
   /*******************************GETTERS+SETTERS************************************************/
@@ -76,7 +59,7 @@ public class ProductionRecord {
   }
 
   public Date getDateProduced() {
-    return dateProduced;
+    return new Timestamp(dateProduced.getTime());
   }
 
   public void setDateProduced(Date dateProduced) {
@@ -93,12 +76,22 @@ public class ProductionRecord {
 
   /********************************METHODS************************************************/
 
+
   @Override
   public String toString() {
     return
-        "Prod#: " + productionNumber +
-            " Product ID: " + productID +
-            " Serial#: " + serialNumber +
-            " Date: " + dateProduced;
+        "Prod#: " + this.productionNumber +
+            " Product ID: " + this.productID +
+            " Serial#: " + this.serialNumber +
+            " Date: " + this.dateProduced;
   }
+
+
+  public static String generateSerialNumber(String manufacturer, ItemType type,
+      int productionCount) {
+
+    return manufacturer.substring(0, 3).toUpperCase() +
+        type.code + String.format("%05d", productionCount);
+  }
+
 }
