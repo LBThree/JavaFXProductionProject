@@ -12,7 +12,7 @@ In addition to the ability to record production, the software also needs the abi
 <image src = "https://media4.giphy.com/media/7oJ2K9zrAyHFXTszc9/giphy.gif" >
   
 ## Class Diagram
-<image src= "https://github.com/LBThree/JavaFXProductionProject/blob/master/src/main/docs/Class%20Diagrams/Top-Level%20Package.png ">
+<image src= "https://github.com/LBThree/JavaFXProductionProject/blob/master/docs/Diagrams/Top-Level%20Package.png">
 
 ## Database Diagram
-<image src = https://github.com/LBThree/JavaFXProductionProject/blob/master/src/main/docs/Class%20Diagrams/INVENTORYDATABASE.png>
+<image src = "https://github.com/LBThree/JavaFXProductionProject/blob/master/docs/Diagrams/INVENTORYDATABASE.png">
