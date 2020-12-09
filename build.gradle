@@ -4,6 +4,7 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.0.7'
 }
 
+//noinspection GroovyUnusedAssignment
 sourceCompatibility = 11
 
 javafx {
@@ -11,6 +12,7 @@ javafx {
     version = '11.0.2'
 }
 
+//noinspection GroovyUnusedAssignment
 mainClassName = 'Main'
 
 group 'io.github.LBThree'

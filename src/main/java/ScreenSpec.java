@@ -1,8 +1,26 @@
 public interface ScreenSpec {
 
-  public String getResolution();
+  /**
+   * Gets the resolution.
+   *
+   * @return the resolution for the screen
+   * @deprecated Method never used.
+   */
+  String getResolution();
 
-  public int getRefreshRate();
+  /**
+   * Gets the refresh rate.
+   *
+   * @return the refresh rate for the screen
+   * @deprecated Method never used.
+   */
+  int getRefreshRate();
 
-  public int getResponseTime();
+  /**
+   * Gets the response time.
+   *
+   * @return the response time for the screen
+   * @deprecated Method never used.
+   */
+  int getResponseTime();
 }
