@@ -524,7 +524,7 @@ public class Controller {
       quantityComboBox.getSelectionModel().selectFirst();
       quantityComboBox.setValue("1");
       quantityComboBox.getItems().add(Integer.toString(i));
-      quantityComboBox.setEditable(true);
+      quantityComboBox.setEditable(false);
     }
   }
 
