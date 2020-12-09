@@ -1,3 +1,9 @@
+/**
+ * An enumeration for the different kinds of Products that can be produced.
+ *
+ * @author Logan Bahr
+ */
+
 public enum ItemType {
 
   AUDIO("AU"),
@@ -5,8 +11,16 @@ public enum ItemType {
   AudioMobile("AM"),
   VisualMobile("VM");
 
-  public String code;
+  /**
+   * The two letter abbreviation for the item type.
+   */
+  public final String code;
 
+  /**
+   * Constructs an item type.
+   *
+   * @param code the two letter abbreviation for the type of item
+   */
   ItemType(String code) {
     this.code = code;
   }

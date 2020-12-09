@@ -1,25 +1,33 @@
-/**************************************************************************************************
- *  Author:   Logan Bahr
- *  Created:  9/19/20
- *  Purpose:  Main method to start the initial GUI applet which will be ran through 'Controller'
- **************************************************************************************************/
+
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * The driver class for the Production Project.
+ *
+ * @author Logan Bahr
+ */
+public class Main extends Application {
 
-public class Main extends Application{
-
+  /**
+   * The main method for the driver class.
+   *
+   * @param args the arguments provided to the main method.
+   */
   public static void main(String[] args) {
     launch(args);
   }
 
+  /**
+   * Sets up the GUI.
+   *
+   * @param primaryStage GUI
+   * @throws Exception GUI crashing
+   */
   @Override
   public void start(Stage primaryStage) throws Exception {
 
